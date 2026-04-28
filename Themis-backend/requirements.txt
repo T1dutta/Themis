@@ -1,7 +1,8 @@
 flask
 flask-cors
 pandas
+numpy
+scikit-learn
 fairlearn
 google-generativeai
-python-dotenv
 gunicorn
