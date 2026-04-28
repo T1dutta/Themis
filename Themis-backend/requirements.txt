@@ -1,6 +1,7 @@
-fairlearn==0.13.0
-pandas
 flask
 flask-cors
-functions-framework
-google-genai
+pandas
+fairlearn
+google-generativeai
+python-dotenv
+gunicorn
