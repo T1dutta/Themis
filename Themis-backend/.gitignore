@@ -1,0 +1,19 @@
+# Environment & secrets — NEVER commit these
+.env
+.env.*
+
+# Python virtual environment
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Python version file (optional to exclude)
+# .python-version
+
+# Test output
+*.log
+
+# Large data files (optional — remove if you want CSV in git)
+*.csv

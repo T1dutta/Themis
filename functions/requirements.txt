@@ -1,1 +1,9 @@
 firebase_functions~=0.5.0
+flask
+flask-cors
+pandas
+numpy
+scikit-learn
+fairlearn
+google-genai
+python-dotenv

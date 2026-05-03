@@ -10,7 +10,14 @@ from fairlearn.metrics import demographic_parity_difference, equalized_odds_diff
 from google import genai
 
 app = Flask(__name__)
-CORS(app)
+
+# ── CORS — restrict to Firebase Hosting domain in production ──────────────────
+ALLOWED_ORIGINS = os.environ.get(
+    "CORS_ORIGINS",
+    "https://themis-179.web.app,https://themis-179.firebaseapp.com,http://localhost:5173"
+).split(",")
+
+CORS(app, origins=ALLOWED_ORIGINS)
 
 
 @app.route("/", methods=["GET"])
@@ -28,8 +35,6 @@ def analyse():
         df = pd.read_csv(request.files["file"])
 
         # ── 2. Parse protected columns ────────────────────────────────────────
-        # Accept either "protected_cols" (comma-separated, spec) or
-        # "protected_col" (singular, sent by the frontend loop — one per call).
         protected_cols_str = (
             request.form.get("protected_cols")
             or request.form.get("protected_col")
@@ -97,12 +102,10 @@ def analyse():
         metrics = []
 
         for col in cols:
-            # Drop rows where the protected column or outcome is NaN
             valid_mask = df[col].notna() & y.notna()
             col_series = df.loc[valid_mask, col]
             y_clean = y[valid_mask]
 
-            # Approval rates per group
             approval_rates = {}
             for group_val in col_series.unique():
                 mask = col_series == group_val
@@ -111,9 +114,6 @@ def analyse():
             favored_group = max(approval_rates, key=approval_rates.get)
             disadvantaged_group = min(approval_rates, key=approval_rates.get)
 
-            # Fairlearn metrics (absolute values)
-            # y_pred = y_clean: we treat the dataset outcome as the "prediction"
-            # to measure selection rate disparity across groups
             dpd_score = abs(
                 demographic_parity_difference(
                     y_true=y_clean,
@@ -191,7 +191,6 @@ Write exactly 3 specific actionable steps this organisation can take to reduce t
 
 Keep the entire response under 350 words."""
 
-        # Try models in order — fall back if quota exhausted or model not found
         models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
         last_error = None
 
@@ -206,7 +205,6 @@ Keep the entire response under 350 words."""
                 last_error = str(model_err)
                 continue
 
-        # All models exhausted or errored
         print(f"Explain models failed. Last error: {last_error}")
         return jsonify({
             "error": "AI explanation unavailable — API quota exceeded or models unavailable. "
@@ -221,4 +219,3 @@ Keep the entire response under 350 words."""
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port, debug=False)
-

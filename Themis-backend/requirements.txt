@@ -4,5 +4,6 @@ pandas
 numpy
 scikit-learn
 fairlearn
-google-generativeai
+google-genai
+python-dotenv
 gunicorn
