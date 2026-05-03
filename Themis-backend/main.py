@@ -191,7 +191,7 @@ Write exactly 3 specific actionable steps this organisation can take to reduce t
 
 Keep the entire response under 350 words."""
 
-        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+        models_to_try = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
         last_error = None
 
         for model_name in models_to_try:

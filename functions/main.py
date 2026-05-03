@@ -151,7 +151,7 @@ Exactly 3 concrete, specific actions to reduce bias.
 
 Keep under 350 words."""
 
-        models_to_try = ["gemini-2.5-flash", "gemini-2.0-flash", "gemini-1.5-flash"]
+        models_to_try = ["gemini-2.5-flash", "gemini-2.5-flash-lite", "gemini-2.0-flash", "gemini-2.0-flash-lite"]
         last_error = None
         for model_name in models_to_try:
             try:
