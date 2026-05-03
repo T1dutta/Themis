@@ -3,6 +3,8 @@ import axios from 'axios'
 import Papa from 'papaparse'
 import './App.css'
 
+const API_BASE_URL = 'https://us-central1-themis-179.cloudfunctions.net' // Change this after Render deployment
+
 /* ─── helpers ─────────────────────────────────────────────────────────── */
 function getSeverity(score) {
   if (score >= 0.2) return 'critical'
@@ -110,7 +112,7 @@ export default function App() {
       formData.append('protected_cols', selectedProtectedCols.join(','))
       formData.append('outcome_col', selectedOutcomeCol)
 
-      const response = await axios.post('https://us-central1-themis-179.cloudfunctions.net/analyse', formData)
+      const response = await axios.post(`${API_BASE_URL}/analyse`, formData)
 
       if (response.data.error) {
         setError(response.data.error)
@@ -125,7 +127,7 @@ export default function App() {
 
       try {
         const explainRes = await axios.post(
-          'https://us-central1-themis-179.cloudfunctions.net/explain',
+          `${API_BASE_URL}/explain`,
           { metrics: response.data.metrics },
           { headers: { 'Content-Type': 'application/json' } }
         )
