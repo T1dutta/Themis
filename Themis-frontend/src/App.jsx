@@ -3,7 +3,7 @@ import axios from 'axios'
 import Papa from 'papaparse'
 import './App.css'
 
-const API_BASE_URL = 'https://us-central1-themis-179.cloudfunctions.net' // Change this after Render deployment
+const API_BASE_URL = 'https://themis-vmcx.onrender.com'
 
 /* ─── helpers ─────────────────────────────────────────────────────────── */
 function getSeverity(score) {
